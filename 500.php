@@ -1,8 +1,10 @@
 <?php
+// log the error, send an email and give the user some content
+// DRAFT
 defined('_JEXEC') OR defined('_VALID_MOS') OR die( "Direct Access Is Not Allowed" );
 
-$email_recipient = "rob@pelotas.co.uk";
-$log_file = '/kunden/homepages/8/d422344499/htdocs/sites/pelotas.co.uk/logs/web_error.log';
+$email_recipient = "info@somewhere.com";
+$log_file = '/tmp/logs/web_error.log';
 //$checkuser = JFactory::getUser();
 //$giddy = $checkuser->get('gid');
 $ip = getenv('REMOTE_ADDR');
@@ -35,12 +37,14 @@ if (is_writable($filename)) {
     $additional_error = "The error log is not writable!";
 }
 // alert admin
-$mailcontent = "A script error occured on: " . $rq . "here's the info:nn" . $somecontent;
-mail($email_recipient,"ERROR!",$mailcontent);
+$mailcontent = "A script error occured on: " . $rq . "here's the info: " . $somecontent;
+mail($email_recipient,"ERROR! 500 on $rq",$mailcontent);
 
 if ($additional_error != "") {
-  echo "<h2><b>WARNING</b> ", $additional_error, "</h2>";
+  echo "<h4><b>WARNING</b> ", $additional_error, "</h4>";
 } else {
   echo "<h3>An error has been logged.</h3>";
 }
+echo "<h2>Did you break it?</h2>";
+
 ?>
